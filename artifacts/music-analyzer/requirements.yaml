@@ -1,0 +1,15 @@
+packages:
+  "framer-motion": "For smooth DJ/vinyl animations and pulsing effects"
+  "date-fns": "For formatting history timestamps"
+  "clsx": "Classname utilities"
+  "tailwind-merge": "Classname merging"
+
+images:
+  - path: "artifacts/music-analyzer/public/images/vinyl-bg.png"
+    description: "Dark, moody abstract background with subtle circular grooves like a vinyl record, deep blacks and dark grays with a faint neon green edge light"
+    aspect_ratio: "16:9"
+
+notes:
+  - "The API is located at /api and hooks are imported from @workspace/api-client-react"
+  - "Client-side BPM calculation is implemented as a fallback/preview before backend responds"
+  - "Uses Web Audio API for recording from the user's microphone"
