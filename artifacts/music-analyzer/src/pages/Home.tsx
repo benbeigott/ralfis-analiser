@@ -37,15 +37,9 @@ export default function Home() {
         
         {/* Header */}
         <header className="flex items-center justify-between mb-8 lg:mb-12 py-4 px-5 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md shadow-lg">
-          <div className="flex items-center gap-4">
-            <AppIcon size={48} />
-            <div>
-              <h1 className="text-2xl lg:text-4xl text-foreground m-0 flex items-center gap-2">
-                <span className="font-black text-primary tracking-wider">RALFIS</span>
-                <span className="font-light tracking-widest opacity-90">ANALiser</span>
-              </h1>
-            </div>
-          </div>
+          <h1 className="m-0">
+            <AppIcon />
+          </h1>
           <div className="hidden sm:flex px-4 py-2 rounded-lg border border-primary/20 bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest shadow-[0_0_10px_rgba(255,107,43,0.1)]">
             BPM Detector
           </div>
