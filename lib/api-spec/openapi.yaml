@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Music Analyzer API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: analysis
+    description: Music analysis operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /analysis/bpm:
+    post:
+      operationId: analyzeBpm
+      tags: [analysis]
+      summary: Analyze BPM from audio data
+      description: Accepts base64-encoded PCM audio and returns BPM analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BpmAnalysisRequest"
+      responses:
+        "200":
+          description: BPM analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BpmAnalysisResult"
+        "400":
+          description: Invalid audio data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /analysis/history:
+    get:
+      operationId: getAnalysisHistory
+      tags: [analysis]
+      summary: Get analysis history
+      description: Returns list of past BPM analyses
+      responses:
+        "200":
+          description: List of analysis records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnalysisRecord"
+    delete:
+      operationId: clearAnalysisHistory
+      tags: [analysis]
+      summary: Clear analysis history
+      description: Deletes all stored analysis records
+      responses:
+        "200":
+          description: History cleared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    BpmAnalysisRequest:
+      type: object
+      properties:
+        audioData:
+          type: string
+          description: Base64-encoded raw PCM float32 audio samples
+        sampleRate:
+          type: number
+          description: Sample rate of the audio in Hz
+        label:
+          type: string
+          description: Optional label for this recording
+      required:
+        - audioData
+        - sampleRate
+    BpmAnalysisResult:
+      type: object
+      properties:
+        bpm:
+          type: number
+          description: Detected BPM value
+        confidence:
+          type: number
+          description: Confidence score 0-1
+        label:
+          type: string
+          description: Label provided by user
+        id:
+          type: string
+          description: Unique ID of stored record
+        analyzedAt:
+          type: string
+          format: date-time
+      required:
+        - bpm
+        - confidence
+        - id
+        - analyzedAt
+    AnalysisRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        bpm:
+          type: number
+        confidence:
+          type: number
+        label:
+          type: string
+        analyzedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - bpm
+        - confidence
+        - analyzedAt
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+        - message
