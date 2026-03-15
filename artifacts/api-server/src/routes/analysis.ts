@@ -99,7 +99,7 @@ router.post("/bpm", async (req, res) => {
     bpm: record.bpm,
     confidence: record.confidence,
     label: record.label ?? undefined,
-    analyzedAt: record.analyzedAt.toISOString(),
+    analyzedAt: new Date(record.analyzedAt),
   });
 
   res.json(result);
@@ -118,7 +118,7 @@ router.get("/history", async (_req, res) => {
       bpm: r.bpm,
       confidence: r.confidence,
       label: r.label ?? undefined,
-      analyzedAt: r.analyzedAt.toISOString(),
+      analyzedAt: new Date(r.analyzedAt),
     }))
   );
 
